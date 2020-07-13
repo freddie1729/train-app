@@ -1,0 +1,39 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" controller="TrainService">
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="nextTime" type="String" access="public"/>
+    <aura:attribute name="currentDeparture" type="Integer" access="public" default="0"/>
+    <aura:attribute name="fromStation" type="String" access="public" default="CBG"/>
+    <aura:attribute name="toStation" type="String" access="public" default="KGX"/>
+    <aura:attribute name="showResult" type="Boolean" access="public" default="false"/>
+    
+    <lightning:card title="Available functions">
+        <div class="slds-p-around_x-small">
+            <lightning:tabset selectedTabId="one">
+                <lightning:tab label="Next Trains" id="one">
+                    <lightning:input value="{!v.fromStation}" label="From" onchange="{!c.doSearch}"/>
+                    <lightning:input value="{!v.toStation}" label="To" onchange="{!c.doSearch}"/>
+                    
+                    <aura:if isTrue="{!v.showResult}">
+                        <div class="slds-grid">
+                            Train #{!v.currentDeparture + 1} from {!v.fromStation} to {!v.toStation != '' ? v.toStation : 'anywhere'} is at {!v.nextTime}!<br/>
+                        </div>
+                    </aura:if>     
+                        
+                    <br/>
+                    <lightning:button label="Get previous" onclick="{!c.getPrevious}" iconName="utility:back"/>
+                    <lightning:button label="Get next" onclick="{!c.getNext}" iconName="utility:forward" iconPosition="right"/>
+                </lightning:tab>
+            </lightning:tabset>
+        </div>
+    </lightning:card>
+
+    
+<footer role="contentinfo" class="slds-p-around--large">
+  	<div class="slds-grid slds-grid--align-spread">
+    	<p class="slds-col">&copy; Freddie Wright 2018</p>
+    	<p class="slds-col">Created using the Realtime Trains API</p>
+	</div>
+</footer>
+</aura:component>
